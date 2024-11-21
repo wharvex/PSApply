@@ -49,39 +49,47 @@ function New-Apply {
         return
     }
 
-    # Update ApplyCount
+    # Update ApplyCount.
     $new_apply_count = [int]$count_file_content + 1
-    Set-Content -Path $count_path -Value $new_apply_count
+    Set-Content -Path "$($env:userprofile)\ApplyCount.txt" -Value $new_apply_count
 
-    # Create the apply folder
+    # Set path variables.
+    $job_search_path = $job_search_path_file_content
     $apply_folder_name = "Apply$($new_apply_count)"
-    if (Test-Path $apply_folder_name) {
-        Write-Host "$apply_folder_name already exists. Please adjust your count file."
+    $apply_folder_path = "$job_search_path\$apply_folder_name"
+
+    # Create the apply folder.
+    if (Test-Path $apply_folder_path) {
+        Write-Host "$apply_folder_path already exists. Please adjust your count file."
         return
     }
-    mkdir $apply_folder_name
+    mkdir $apply_folder_path
 
     # Create files from templates.
-    Copy-Item -Path "$($job_search_path_file_content)\Resumes\Template.pptx" -Destination "$($apply_folder_name)\Resume.pptx"
-    Copy-Item -Path "$($job_search_path_file_content)\CoverLetters\Template.txt" -Destination "$($apply_folder_name)\CoverLetter.txt"
-    Copy-Item -Path "$($job_search_path_file_content)\CoverLetters\Template.docx" -Destination "$($apply_folder_name)\CoverLetter.docx"
+    Copy-Item -Path "$($job_search_path)\Resumes\Template.pptx" -Destination "$($apply_folder_path)\Resume.pptx"
+    Copy-Item -Path "$($job_search_path)\CoverLetters\Template.txt" -Destination "$($apply_folder_path)\CoverLetter.txt"
+    Copy-Item -Path "$($job_search_path)\CoverLetters\Template.docx" -Destination "$($apply_folder_path)\CoverLetter.docx"
 
     # Create files from user input.
-    $pos | Out-File -FilePath "$($apply_folder_name)\Position.txt"
-    $emp | Out-File -FilePath "$($apply_folder_name)\Employer.txt"
-    $loc | Out-File -FilePath "$($apply_folder_name)\Location.txt"
-    $sal | Out-File -FilePath "$($apply_folder_name)\Salary.txt"
-    $dis | Out-File -FilePath "$($apply_folder_name)\DiscoveredThru.txt"
+    $pos | Out-File -FilePath "$($apply_folder_path)\Position.txt"
+    $emp | Out-File -FilePath "$($apply_folder_path)\Employer.txt"
+    $loc | Out-File -FilePath "$($apply_folder_path)\Location.txt"
+    $sal | Out-File -FilePath "$($apply_folder_path)\Salary.txt"
+    $dis | Out-File -FilePath "$($apply_folder_path)\DiscoveredThru.txt"
 
     # Create other files.
-    "john smith`nhr`naddr`naddr" | Out-File -FilePath "$($apply_folder_name)\CoverLetterAddr.txt"
-    "description" | Out-File -FilePath "$($apply_folder_name)\Description.txt"
-    "required skills" | Out-File -FilePath "$($apply_folder_name)\RequiredSkills.txt"
-    "preferred skills" | Out-File -FilePath "$($apply_folder_name)\PreferredSkills.txt"
-    "applied on" | Out-File -FilePath "$($apply_folder_name)\AppliedOn.txt"
+    "john smith`nhr`naddr`naddr" | Out-File -FilePath "$($apply_folder_path)\CoverLetterAddr.txt"
+    "description" | Out-File -FilePath "$($apply_folder_path)\Description.txt"
+    "required skills" | Out-File -FilePath "$($apply_folder_path)\RequiredSkills.txt"
+    "preferred skills" | Out-File -FilePath "$($apply_folder_path)\PreferredSkills.txt"
+    "applied on" | Out-File -FilePath "$($apply_folder_path)\AppliedOn.txt"
 
-    # Open the apply folder in vim.
-    vim $apply_folder_name
+    # Open environment.
+    Start-Process "$($apply_folder_path)\Resume.pptx"
+    Start-Process "$($job_search_path)\Resumes\TemplateOptions.pptx"
+    Start-Process "$($apply_folder_path)\CoverLetter.docx"
+    Set-Location $job_search_path
+    vim .
 }
 
 # For debugging in VS Code.
