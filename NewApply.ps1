@@ -36,10 +36,10 @@ function New-Apply {
     }
 
     # Get count file content.
-    $count_file_content = & $get_and_verify_file_content("ApplyCount.txt")
-    if ($null -eq $count_file_content) {
-        return
-    }
+    # $count_file_content = & $get_and_verify_file_content("ApplyCount.txt")
+    # if ($null -eq $count_file_content) {
+    #     return
+    # }
 
     # Get job search path file contents.
     # This file should contain the path to your `JobSearch` folder that contains all your templates,
@@ -49,9 +49,16 @@ function New-Apply {
         return
     }
 
+    # Get the largest integer suffix of the `Apply` folder names.
+    $max_apply_folder_suffix = $(Get-ChildItem $job_search_path_file_content `
+    | Select-Object -ExpandProperty Name `
+    | Where-Object {$_ -match '^Apply*'} `
+    | Select-Object @{Name='suffixes';Expression={[int]$_.Substring(5)}}).suffixes `
+    | Measure-Object -Maximum
+
     # Update ApplyCount.
-    $new_apply_count = [int]$count_file_content + 1
-    Set-Content -Path "$($env:userprofile)\ApplyCount.txt" -Value $new_apply_count
+    $new_apply_count = $max_apply_folder_suffix.Maximum + 1
+    # Set-Content -Path "$($env:userprofile)\ApplyCount.txt" -Value $new_apply_count
 
     # Set path variables.
     $job_search_path = $job_search_path_file_content
@@ -78,7 +85,7 @@ function New-Apply {
     $dis | Out-File -FilePath "$($apply_folder_path)\DiscoveredThru.txt"
 
     # Create other files.
-    "john smith`nhr`naddr`naddr" | Out-File -FilePath "$($apply_folder_path)\CoverLetterAddr.txt"
+    "address" | Out-File -FilePath "$($apply_folder_path)\CoverLetterAddr.txt"
     "description" | Out-File -FilePath "$($apply_folder_path)\Description.txt"
     "required skills" | Out-File -FilePath "$($apply_folder_path)\RequiredSkills.txt"
     "preferred skills" | Out-File -FilePath "$($apply_folder_path)\PreferredSkills.txt"
