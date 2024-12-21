@@ -35,12 +35,6 @@ function New-Apply {
         return $content
     }
 
-    # Get count file content.
-    # $count_file_content = & $get_and_verify_file_content("ApplyCount.txt")
-    # if ($null -eq $count_file_content) {
-    #     return
-    # }
-
     # Get job search path file contents.
     # This file should contain the path to your `JobSearch` folder that contains all your templates,
     # previous applications, etc.
@@ -57,8 +51,11 @@ function New-Apply {
     | Measure-Object -Maximum
 
     # Update ApplyCount.
-    $new_apply_count = $max_apply_folder_suffix.Maximum + 1
-    # Set-Content -Path "$($env:userprofile)\ApplyCount.txt" -Value $new_apply_count
+    if ($null -eq $max_apply_folder_suffix.Maximum) {
+        $new_apply_count = 1
+    } else {
+        $new_apply_count = $max_apply_folder_suffix.Maximum + 1
+    }
 
     # Set path variables.
     $job_search_path = $job_search_path_file_content
@@ -100,4 +97,3 @@ function New-Apply {
 if ($env:TERM_PROGRAM -eq "vscode") {
     New-Apply
 }
-
