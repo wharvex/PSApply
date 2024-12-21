@@ -74,7 +74,6 @@ function New-Apply {
 
     # Create files from templates.
     Copy-Item -Path "$($job_search_path)\Resumes\Template.pptx" -Destination "$($apply_folder_path)\Resume.pptx"
-    Copy-Item -Path "$($job_search_path)\CoverLetters\Template.txt" -Destination "$($apply_folder_path)\CoverLetter.txt"
     Copy-Item -Path "$($job_search_path)\CoverLetters\Template.docx" -Destination "$($apply_folder_path)\CoverLetter.docx"
 
     # Create files from user input.
@@ -87,13 +86,11 @@ function New-Apply {
     # Create other files.
     "address" | Out-File -FilePath "$($apply_folder_path)\CoverLetterAddr.txt"
     "description" | Out-File -FilePath "$($apply_folder_path)\Description.txt"
-    "required skills" | Out-File -FilePath "$($apply_folder_path)\RequiredSkills.txt"
-    "preferred skills" | Out-File -FilePath "$($apply_folder_path)\PreferredSkills.txt"
-    "applied on" | Out-File -FilePath "$($apply_folder_path)\AppliedOn.txt"
 
     # Open environment.
     Start-Process "$($apply_folder_path)\Resume.pptx"
     Start-Process "$($job_search_path)\Resumes\TemplateOptions.pptx"
+    Start-Process "$($job_search_path)\Resumes\TemplateOptions2.pptx"
     Start-Process "$($apply_folder_path)\CoverLetter.docx"
     Set-Location $job_search_path
     vim .
