@@ -83,7 +83,9 @@ function New-Apply {
 
     # Create other files.
     "address" | Out-File -FilePath "$($apply_folder_path)\CoverLetterAddr.txt"
-    "description" | Out-File -FilePath "$($apply_folder_path)\Description.txt"
+    "Can you identify the top 5-10 keywords/skills from this job description?" `
+    | Out-File -FilePath "$($apply_folder_path)\Description.txt"
+    "keywords" | Out-File -FilePath "$($apply_folder_path)\Keywords.txt"
 
     # Open environment.
     Start-Process "$($apply_folder_path)\Resume.pptx"
