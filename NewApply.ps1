@@ -70,8 +70,8 @@ function New-Apply {
     mkdir $apply_folder_path
 
     # Create files from templates.
-    Copy-Item -Path "$($job_search_path)\Resumes\Template.pptx" -Destination "$($apply_folder_path)\Resume.pptx"
-    Copy-Item -Path "$($job_search_path)\CoverLetters\Template.docx" -Destination "$($apply_folder_path)\CoverLetter.docx"
+    Copy-Item -Path "$($job_search_path)\resumes\ats_resume_projects.docx" -Destination "$($apply_folder_path)\Resume.docx"
+    Copy-Item -Path "$($job_search_path)\CoverLetters\new_template.docx" -Destination "$($apply_folder_path)\CoverLetter.docx"
     Copy-Item -Path "$($job_search_path)\EmailTemplate.txt" -Destination "$($apply_folder_path)\Email.txt"
 
     # Create files from user input.
@@ -88,8 +88,8 @@ function New-Apply {
     "keywords" | Out-File -FilePath "$($apply_folder_path)\Keywords.txt"
 
     # Open environment.
-    Start-Process "$($apply_folder_path)\Resume.pptx"
-    Start-Process "$($job_search_path)\Resumes\TemplateOptions3.pptx"
+    Start-Process "$($apply_folder_path)\Resume.docx"
+    Start-Process "$($job_search_path)\resumes\ats_resume_options.docx"
     Start-Process "$($apply_folder_path)\CoverLetter.docx"
     Set-Location $job_search_path
     vim .
