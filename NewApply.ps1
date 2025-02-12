@@ -70,7 +70,7 @@ function New-Apply {
     mkdir $apply_folder_path
 
     # Create files from templates.
-    Copy-Item -Path "$($job_search_path)\resumes\ats_resume_projects.docx" -Destination "$($apply_folder_path)\Resume.docx"
+    Copy-Item -Path "$($job_search_path)\resumes\ats_resume_volunteer.docx" -Destination "$($apply_folder_path)\Resume.docx"
     Copy-Item -Path "$($job_search_path)\CoverLetters\new_template.docx" -Destination "$($apply_folder_path)\CoverLetter.docx"
     Copy-Item -Path "$($job_search_path)\EmailTemplate.txt" -Destination "$($apply_folder_path)\Email.txt"
 
