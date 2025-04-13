@@ -96,6 +96,7 @@ function New-Apply {
 }
 
 # For debugging in VS Code.
-if ($env:TERM_PROGRAM -eq "vscode") {
+If ($MyInvocation.InvocationName -ne ".")
+{
     New-Apply
 }
